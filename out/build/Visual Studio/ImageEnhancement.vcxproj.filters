@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\src\lib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\src\PointWiseTransformer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\src\HistogramTransformer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\src\NoiseSmoother.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{EF0A3559-049E-3963-B5DD-16511398AB1F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

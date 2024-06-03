@@ -1,0 +1,11 @@
+{
+    "cmake.debugConfig": {
+        "args": ["-bil", "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/images/Highimgnoise.jpg", "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/Highimgnoise_bil.jpg", "21", "10"],
+        "cwd": "${workspaceFolder}",
+    },
+    "files.associations": {
+        "*.ejs": "html",
+        "vector": "cpp",
+        "thread": "cpp"
+    }
+}

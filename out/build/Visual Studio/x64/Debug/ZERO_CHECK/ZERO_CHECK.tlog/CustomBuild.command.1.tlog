@@ -1,0 +1,10 @@
+^D:\SELF_PRACTICING\COMPUTER VISION\LEARNING_OPENCV\IMAGEENHANCEMENT\OUT\BUILD\VISUAL STUDIO\CMAKEFILES\4E7EC788D3EE35F29355E0D1EEE15913\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SD:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement" "-BD:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/out/build/Visual Studio" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/out/build/Visual Studio/ImageEnhancement.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
