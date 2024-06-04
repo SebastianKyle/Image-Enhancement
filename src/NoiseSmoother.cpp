@@ -350,3 +350,83 @@ int NoiseSmoother::bilateral_filter(const cv::Mat &source_img, cv::Mat &dest_img
     dest_img = output.clone();
     return 1;
 }
+
+int NoiseSmoother::alpha_trimmed_mean_filter(const cv::Mat& source_img, cv::Mat& dest_img, int k, int alpha) {
+    if (!source_img.data)
+        return 0;
+
+    cv::Mat output = source_img.clone();
+    int width = source_img.cols, height = source_img.rows;
+
+    for (int y = 0; y < height; y++)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            int quarter_side = int((k - 1) / 2);
+
+            if (source_img.channels() == 3)
+            {
+                std::vector<int> neighbor_pixel_values[3];
+
+                for (int yi = y - quarter_side; yi <= y + quarter_side; yi++)
+                {
+                    for (int xi = x - quarter_side; xi <= x + quarter_side; xi++)
+                    {
+                        int y_coord = std::min(height - 1, abs(yi));
+                        int x_coord = std::min(width - 1, abs(xi));
+
+                        cv::Vec3b pixel = source_img.at<cv::Vec3b>(y_coord, x_coord);
+                        for (int c = 0; c < 3; c++)
+                        {
+                            neighbor_pixel_values[c].push_back(pixel[c]);
+                        }
+                    }
+                }
+
+                cv::Vec3b output_pixel_value(0, 0, 0);
+                for (int c = 0; c < 3; c++)
+                {
+                    std::sort(neighbor_pixel_values[c].begin(), neighbor_pixel_values[c].end());
+
+                    // Trim alpha/2 lowest and alpha/2 highest
+                    for (int v = alpha/2; v < neighbor_pixel_values[c].size() - alpha/2; v++) {
+                        output_pixel_value[c] += neighbor_pixel_values[c][v];
+                    }
+
+                    output_pixel_value[c] /= 1/(k * k - alpha);
+                }
+
+                output.at<cv::Vec3b>(y, x) = output_pixel_value;
+            }
+            else
+            {
+                std::vector<int> neighbor_pixel_values;
+
+                for (int yi = y - quarter_side; yi <= y + quarter_side; yi++)
+                {
+                    for (int xi = x - quarter_side; xi <= x + quarter_side; xi++)
+                    {
+                        int y_coord = std::min(height - 1, abs(yi));
+                        int x_coord = std::min(width - 1, abs(xi));
+
+                        neighbor_pixel_values.push_back(source_img.at<uchar>(y_coord, x_coord));
+                    }
+                }
+
+                uchar output_pixel_value = 0;
+                std::sort(neighbor_pixel_values.begin(), neighbor_pixel_values.end());
+
+                // Trim alpha/2 lowest and alpha/2 highest
+                for (int v = alpha/2; v < neighbor_pixel_values.size() - alpha/2; v++) {
+                    output_pixel_value += neighbor_pixel_values[v];
+                }
+                output_pixel_value /= 1/(k * k - alpha);
+
+                output.at<uchar>(y, x) = output_pixel_value;
+            }
+        }
+    }
+
+    dest_img = output.clone();
+    return 1;
+}

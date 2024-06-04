@@ -1,11 +1,13 @@
 #include "PointWiseTransformer.h"
 #include "HistogramTransformer.h"
 #include "NoiseSmoother.h"
+#include "Sharpener.h"
 
 int main(int argc, char** argv){
     PointWiseTransformer* pointWiseTransformer = new PointWiseTransformer();
     HistogramTransformer* histogramTransformer = new HistogramTransformer(); 
     NoiseSmoother* noiseSmoother = new NoiseSmoother(); 
+    Sharpener* sharpener = new Sharpener(); 
 
     cv::Mat dest_img;
     cv::Mat source_img = imread(argv[2], cv::IMREAD_UNCHANGED);
@@ -26,6 +28,9 @@ int main(int argc, char** argv){
         }
         else if (str_compare(argv[1], "-median")) {
             success = noiseSmoother->median_filter(source_img, dest_img, char_2_int(argv, 4));
+        }
+        else if (str_compare(argv[1], "-sharp")) {
+            success = sharpener->sharpen(source_img, dest_img, char_2_double(argv, 4)); 
         }
 
     } 

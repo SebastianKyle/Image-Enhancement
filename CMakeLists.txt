@@ -20,6 +20,8 @@ set(SOURCES
     src/PointWiseTransformer.cpp
     src/HistogramTransformer.cpp
     src/NoiseSmoother.cpp
+    src/Sharpener.cpp
+    src/HomomorphicFilter.cpp
 )
 
 set(CMAKE_CXX_STANDARD 11)

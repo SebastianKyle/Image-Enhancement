@@ -25,6 +25,7 @@ public:
     int bilateral_filter(const cv::Mat& source_img, cv::Mat& dest_img, int k, int sigma_b);
 
     /* Alpha-trimmed mean filter */
+    int alpha_trimmed_mean_filter(const cv::Mat& source_img, cv::Mat& dest_img, int k, int alpha);
 
 };
 

@@ -330,6 +330,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\src\PointWiseTransformer.cpp" />
     <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\src\HistogramTransformer.cpp" />
     <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\src\NoiseSmoother.cpp" />
+    <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\src\Sharpener.cpp" />
+    <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\src\HomomorphicFilter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\out\build\Visual Studio\ZERO_CHECK.vcxproj">
