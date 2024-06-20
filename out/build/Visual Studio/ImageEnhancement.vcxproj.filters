@@ -22,6 +22,12 @@
     <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\src\HomomorphicFilter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\src\MotionEstimator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\src\VideoDenoiser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\Self_Practicing\Computer Vision\Learning_OpenCV\ImageEnhancement\CMakeLists.txt" />

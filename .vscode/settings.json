@@ -1,6 +1,7 @@
 {
     "cmake.debugConfig": {
-        "args": ["-sharp", "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/images/Lenna.png", "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/Lenna_sharp.png", "2.5"],
+        // "args": ["-image", "-homo", "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/images/darkcorner.jpg", "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/images/darkcorner_homomorphic.jpg", "0.9", "1.8"],
+        "args": ["-video", "-denoise", "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/videos/noisy/SampleVideo_640x360_5mb.mp4", "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/videos/SampleVideo_640x360_5mb_denoised.mp4", "-of", "8", "2"],
         "cwd": "${workspaceFolder}",
     },
     "files.associations": {

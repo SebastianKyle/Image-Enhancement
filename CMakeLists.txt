@@ -22,6 +22,8 @@ set(SOURCES
     src/NoiseSmoother.cpp
     src/Sharpener.cpp
     src/HomomorphicFilter.cpp
+    src/MotionEstimator.cpp
+    src/VideoDenoiser.cpp
 )
 
 set(CMAKE_CXX_STANDARD 11)
