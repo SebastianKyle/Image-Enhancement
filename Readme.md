@@ -54,7 +54,7 @@ Original | Constrast stretched
 :--------------------------:|:--------------------------:
 ![](./images/pout.png) | ![](./results/images/pout_constret.png)
 
-- Noise smoothing
+## Noise smoothing
   - Spatially adaptive noise smoothing
 ```sh
 .\ImageEnhancement.exe -image -sns path/to/input/image.png path/to/output/image.png <kernel-size>
@@ -84,7 +84,7 @@ Original | Bilateral Smoothed (kernel-size = 21, sigma-b = 10.0)
 :--------------------------:|:--------------------------:
 ![](./images/Highimgnoise.jpg) | ![](./results/images/Highimgnoise_bil.jpg)
 
-- Sharpening
+## Sharpening
 
 ```sh
 .\ImageEnhancement.exe -image -sharp path/to/input/image.png path/to/output/image.png <alpha>
@@ -94,7 +94,7 @@ Original | Sharpened (alpha = 1.8)
 :--------------------------:|:--------------------------:
 ![](./images/Lenna.png) | ![](./results/images/Lenna_sharp.png)
 
-- Histogram equalizing
+## Histogram equalizing
 
 ```sh
 .\ImageEnhancement.exe -image -hiseq path/to/input/image.png path/to/output/image.png
@@ -105,7 +105,7 @@ Original | Histogram equalized
 ![](./images/houses.jpg) | ![](./results/images/houses_hiseq.jpg)
 ![](./images/pout.png) | ![](./results/images/pout_hiseq.png)
 
-- Homomorphic filtering
+## Homomorphic filtering
 
 ```sh
 .\ImageEnhancement.exe -image -homo path/to/input/image.png path/to/output/image.png <gamma-1> <gamma-2>
