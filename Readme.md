@@ -70,7 +70,7 @@ Original | Spatially Adaptive Noise Smoothed (kernel-size = 5)
 .\ImageEnhancement.exe -image -median path/to/input/image.png path/to/output/image.png <kernel-size>
 ```
 
-Original | Spatially Adaptive Noise Smoothed (kernel-size = 5)
+Original | Median Smoothed (kernel-size = 5)
 :--------------------------:|:--------------------------:
 ![](./images/chaplin.png) | ![](./results/images/Chaplin_median.png)
 ![](./images/Highimgnoise.jpg) | ![](./results/images/Highimgnoise_median.jpg)
@@ -80,7 +80,7 @@ Original | Spatially Adaptive Noise Smoothed (kernel-size = 5)
 .\ImageEnhancement.exe -image -median path/to/input/image.png path/to/output/image.png <kernel-size> <sigma-b>
 ```
 
-Original | Spatially Adaptive Noise Smoothed (kernel-size = 21, sigma-b = 10.0)
+Original | Bilateral Smoothed (kernel-size = 21, sigma-b = 10.0)
 :--------------------------:|:--------------------------:
 ![](./images/Highimgnoise.jpg) | ![](./results/images/Highimgnoise_bil.jpg)
 
