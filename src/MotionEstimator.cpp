@@ -14,6 +14,12 @@ void MotionEstimator::setPyramidLevels(int levels)
     this->pyramidLevels = levels;
 }
 
+bool MotionEstimator::isFlatRegion(const cv::Mat& source_img, const cv::Rect& rect) {
+    cv::Scalar mean, stdDev;
+    cv::meanStdDev(source_img(rect), mean, stdDev);
+    return stdDev[0] < 5;
+}
+
 cv::Mat MotionEstimator::estimateMotionBM(const cv::Mat &curFrame, const cv::Mat &prevFrame)
 {
     cv::Mat curGray, prevGray;
@@ -37,10 +43,10 @@ cv::Mat MotionEstimator::estimateMotionBM(const cv::Mat &curFrame, const cv::Mat
 
     cv::Mat motionVectors = cv::Mat::zeros(curFrame.size(), CV_32FC2);
 
-    int blockQuarter = int((blockSize - 1) / 2);
-    const int searchRange = 7;
+    const int searchRange = 5;
     int height = curFrame.rows, width = curFrame.cols;
 
+#pragma omp parallel for
     for (int y = 0; y < height; y += this->blockSize)
     {
         for (int x = 0; x < width; x += this->blockSize)
@@ -50,6 +56,8 @@ cv::Mat MotionEstimator::estimateMotionBM(const cv::Mat &curFrame, const cv::Mat
 
             // Define block and search region
             cv::Rect blockRect(x, y, blockWidth, blockHeight);
+            if (isFlatRegion(curGray, blockRect)) continue;
+
             cv::Mat curBlock = curGray(blockRect);
 
             // Logarithmic search
@@ -77,7 +85,6 @@ cv::Mat MotionEstimator::estimateMotionBM(const cv::Mat &curFrame, const cv::Mat
                             cv::absdiff(curBlock, candidateBlock, diff);
                             double error = cv::sum(diff.mul(diff))[0];
 
-                            // Mean absolute error
                             if (error < minError)
                             {
                                 minError = error;
@@ -139,61 +146,17 @@ cv::Mat MotionEstimator::estimateMotionOF(const cv::Mat &curFrame, const cv::Mat
         prevGray = prevFrame;
     }
 
-    // Image gradients
-    // cv::Mat Ix, Iy, It;
-    // cv::Sobel(curGray, Ix, CV_64F, 1, 0, 3);
-    // cv::Sobel(curGray, Iy, CV_64F, 0, 1, 3);
-    // It = curGray - prevGray;
-
-    // cv::Mat motionVectors = cv::Mat::zeros(curFrame.size(), CV_32FC2);
-
-    int winSize = 7; // window size for local patch
+    int winSize = 9; // window size for local patch
     int halfWin = winSize / 2;
 
     int height = curFrame.rows, width = curFrame.cols;
-
-    // for (int y = halfWin; y < height; y++) {
-    //     for (int x = halfWin; x < width; x++) {
-    //         cv::Mat A = cv::Mat::zeros(2, 2, CV_64F);
-    //         cv::Mat b = cv::Mat::zeros(2, 1, CV_64F);
-
-    //         // Construct Hessian matrix A and residual vector b
-    //         for (int dy = -halfWin; dy <= halfWin; dy++) {
-    //             for (int dx = -halfWin; dx <= halfWin; dx++) {
-    //                 double ix = Ix.at<double>(y + dy, x + dx);
-    //                 double iy = Iy.at<double>(y + dy, x + dx);
-    //                 double it = It.at<double>(y + dy, x + dx);
-
-    //                 A.at<double>(0, 0) += ix * ix;
-    //                 A.at<double>(0, 1) += ix * iy;
-    //                 A.at<double>(1, 0) += ix * iy;
-    //                 A.at<double>(1, 1) += iy * iy;
-
-    //                 b.at<double>(0, 0) += ix * it;
-    //                 b.at<double>(1, 0) += iy * it;
-    //             }
-    //         }
-
-    //         // Solve the normal-equation A.u = b for the displacement vector of local patch
-    //         cv::Mat u;
-    //         bool invertible = cv::invert(A, u, cv::DECOMP_SVD);
-    //         if (invertible) {
-    //             u = -u * b;
-    //         }
-    //         else {
-
-    //         }
-    //         u = -A.inv() * b;
-
-    //         motionVectors.at<cv::Point2f>(y, x) = cv::Point2f(u.at<double>(0, 0), u.at<double>(1, 0));
-    //     }
-    // }
 
     std::vector<cv::Mat> curPyr, prevPyr;
     buildPyramids(curFrame, curPyr, pyramidLevels);
     buildPyramids(prevFrame, prevPyr, pyramidLevels);
 
     cv::Mat motionVectors = cv::Mat::zeros(curPyr[pyramidLevels - 1].size(), CV_32FC2);
+    // cv::Mat motionVectors = estimateMotionBM(curPyr.back(), prevPyr.back());
 
     for (int level = pyramidLevels - 1; level >= 0; --level)
     {
@@ -203,52 +166,74 @@ cv::Mat MotionEstimator::estimateMotionOF(const cv::Mat &curFrame, const cv::Mat
         if (level < pyramidLevels - 1)
         {
             cv::resize(motionVectors, motionVectors, curImg.size(), 0, 0, cv::INTER_LINEAR);
-            motionVectors *= 2;
+            motionVectors *= 2.0f;
         }
 
         cv::Mat Ix, Iy, It;
         cv::Sobel(curImg, Ix, CV_64F, 1, 0, 3);
         cv::Sobel(curImg, Iy, CV_64F, 0, 1, 3);
         cv::subtract(curImg, prevImg, It, cv::noArray(), CV_64F);
-        // It = curImg - prevImg;
 
-#pragma omp parallel for collapse(2)
-        for (int y = halfWin; y < curImg.rows - halfWin; y++)
+        for (int iter = 0; iter < 8; iter++)
         {
-            for (int x = halfWin; x < curImg.cols - halfWin; x++)
+#pragma omp parallel for
+            for (int y = halfWin; y < curImg.rows - halfWin; y++)
             {
-                cv::Mat A = cv::Mat::zeros(2, 2, CV_64F);
-                cv::Mat b = cv::Mat::zeros(2, 1, CV_64F);
-
-                for (int dy = -halfWin; dy <= halfWin; dy++)
+                for (int x = halfWin; x < curImg.cols - halfWin; x++)
                 {
-                    for (int dx = -halfWin; dx <= halfWin; dx++)
+                    cv::Mat A = cv::Mat::zeros(2, 2, CV_64F);
+                    cv::Mat b = cv::Mat::zeros(2, 1, CV_64F);
+
+                    for (int dy = -halfWin; dy <= halfWin; dy++)
                     {
-                        double ix = Ix.at<double>(y + dy, x + dx);
-                        double iy = Iy.at<double>(y + dy, x + dx);
-                        double it = It.at<double>(y + dy, x + dx);
+                        for (int dx = -halfWin; dx <= halfWin; dx++)
+                        {
+                            double ix = Ix.at<double>(y + dy, x + dx);
+                            double iy = Iy.at<double>(y + dy, x + dx);
+                            double it = It.at<double>(y + dy, x + dx);
 
-                        A.at<double>(0, 0) += ix * ix;
-                        A.at<double>(0, 1) += ix * iy;
-                        A.at<double>(1, 0) += ix * iy;
-                        A.at<double>(1, 1) += iy * iy;
+                            A.at<double>(0, 0) += ix * ix;
+                            A.at<double>(0, 1) += ix * iy;
+                            A.at<double>(1, 0) += ix * iy;
+                            A.at<double>(1, 1) += iy * iy;
 
-                        b.at<double>(0, 0) += ix * it;
-                        b.at<double>(1, 0) += iy * it;
+                            b.at<double>(0, 0) += ix * it;
+                            b.at<double>(1, 0) += iy * it;
+                        }
                     }
-                }
 
-                cv::Mat u;
-                bool invertible = cv::invert(A, u, cv::DECOMP_SVD);
-                if (invertible)
-                {
-                    u = -u * b;
+                    cv::Mat u;
+                    bool invertible = cv::invert(A, u, cv::DECOMP_SVD);
+                    if (invertible)
+                    {
+                        u = -u * b;
+                        cv::Point2f flow(u.at<double>(0, 0), u.at<double>(1, 0));
 #pragma omp critical
-                    motionVectors.at<cv::Point2f>(y, x) += cv::Point2f(u.at<double>(0, 0), u.at<double>(1, 0));
+                        motionVectors.at<cv::Point2f>(y, x) += flow;
+                    }
                 }
             }
         }
     }
 
     return motionVectors;
+}
+
+void drawMotionVectors(const cv::Mat &frame, const cv::Mat &motionVectors, const std::string &windowName)
+{
+    cv::Mat frameWithVectors = frame.clone();
+
+    for (int y = 0; y < frame.rows; y += 10)
+    {
+        for (int x = 0; x < frame.cols; x += 10)
+        {
+            cv::Point2f motionVec = motionVectors.at<cv::Point2f>(y, x);
+            cv::Point startPoint(x, y);
+            cv::Point endPoint(cvRound(x + motionVec.x), cvRound(y + motionVec.y));
+            cv::arrowedLine(frameWithVectors, startPoint, endPoint, cv::Scalar(255, 255, 0), 2, cv::LINE_AA);
+        }
+    }
+
+    cv::imshow(windowName, frameWithVectors);
+    cv::waitKey(1);
 }

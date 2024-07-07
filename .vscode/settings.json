@@ -1,7 +1,55 @@
 {
     "cmake.debugConfig": {
-        // "args": ["-image", "-homo", "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/images/darkcorner.jpg", "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/images/darkcorner_homomorphic.jpg", "0.9", "1.8"],
-        "args": ["-video", "-denoise", "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/videos/noisy/SampleVideo_640x360_5mb.mp4", "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/videos/SampleVideo_640x360_5mb_denoised.mp4", "-of", "8", "2"],
+        "args": [
+            // Point-wise transformation
+            // "-image",
+            // "-log",
+            // "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/images/Lenna.png",
+            // "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/images/Lenna_log.png",
+
+            // Noise smoothing
+            // "-image",
+            // "-sns",
+            // "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/images/Kodim_noisy.jpg",
+            // "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/images/Kodim_noisy_sns.jpg",
+            // "5",
+
+            // "-image",
+            // "-median",
+            // "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/images/Highimgnoise.jpg",
+            // "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/images/Highimgnoise_median.jpg",
+            // "5",
+
+            // "-image",
+            // "-bil",
+            // "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/images/Highimgnoise.jpg",
+            // "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/images/Highimgnoise_bil.jpg",
+            // "21",
+            // "10.0",
+
+            // Image sharpening
+            // "-image",
+            // "-sharp",
+            // "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/images/Lenna.png",
+            // "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/images/Lenna_sharp.png",
+            // "1.8",
+
+            // Homomorphic filtering
+            "-image",
+            "-homo",
+            "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/images/sunset.jpg",
+            "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/images/sunset_homo.jpg",
+            "0.8",
+            "1.8",
+
+            // "-video",
+            // "-denoise",
+            // "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/videos/noisy/SampleVideo_640x360_1mb.mp4",
+            // "D:/Self_Practicing/Computer Vision/Learning_OpenCV/ImageEnhancement/results/videos/SampleVideo_640x360_1mb_denoised.mp4",
+            // "-of",
+            // "3",
+            // "1"
+        ],
         "cwd": "${workspaceFolder}",
     },
     "files.associations": {

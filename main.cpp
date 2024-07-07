@@ -29,7 +29,11 @@ int main(int argc, char **argv)
 
         if (str_compare(argv[2], "-log"))
         {
-            success = pointWiseTransformer->log_transform(source_img, dest_img, char_2_int(argv, 5));
+            success = pointWiseTransformer->log_transform(source_img, dest_img);
+        }
+        else if (str_compare(argv[2], "-constret"))
+        {
+            success = pointWiseTransformer->constrast_stretching(source_img, dest_img);
         }
         else if (str_compare(argv[2], "-sns"))
         {
@@ -39,21 +43,17 @@ int main(int argc, char **argv)
         {
             success = noiseSmoother->median_filter(source_img, dest_img, char_2_int(argv, 5));
         }
+        else if (str_compare(argv[2], "-bil"))
+        {
+            success = noiseSmoother->bilateral_filter(source_img, dest_img, char_2_int(argv, 5), char_2_int(argv, 6));
+        }
         else if (str_compare(argv[2], "-sharp"))
         {
             success = sharpener->sharpen(source_img, dest_img, char_2_double(argv, 5));
         }
-        else if (str_compare(argv[2], "-constret"))
-        {
-            success = pointWiseTransformer->constrast_stretching(source_img, dest_img);
-        }
         else if (str_compare(argv[2], "-hiseq"))
         {
             success = histogramTransformer->histogram_equalize(source_img, dest_img);
-        }
-        else if (str_compare(argv[2], "-bil"))
-        {
-            success = noiseSmoother->bilateral_filter(source_img, dest_img, char_2_int(argv, 5), char_2_int(argv, 6));
         }
         else if (str_compare(argv[2], "-homo"))
         {
@@ -65,7 +65,7 @@ int main(int argc, char **argv)
             showImageWithAspectRatio("Source Image", source_img, 800, 600);
             showImageWithAspectRatio("Destination Image", dest_img, 800, 600);
 
-            imwrite(argv[3], dest_img);
+            imwrite(argv[4], dest_img);
         }
         else
         {
@@ -82,7 +82,7 @@ int main(int argc, char **argv)
             }
             else if (str_compare(argv[5], "-of"))
             {
-                videoDenoiser->initialize(1, char_2_int(argv, 6), char_2_int(argv, 7));
+                videoDenoiser->initialize(3, char_2_int(argv, 6), char_2_int(argv, 7));
             }
 
             try

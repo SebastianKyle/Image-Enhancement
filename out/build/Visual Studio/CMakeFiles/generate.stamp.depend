@@ -5,6 +5,7 @@ C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeCommonLanguageInclude.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeGenericSystem.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeInitializeConfigs.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeLanguageInformation.cmake
+C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeParseImplicitLinkInfo.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeRCInformation.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeSystemSpecificInformation.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/CMakeSystemSpecificInitialize.cmake
@@ -18,6 +19,7 @@ C:/Program Files/CMake/share/cmake-3.29/Modules/Compiler/MSVC-C.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/Compiler/MSVC-CXX.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/Compiler/MSVC.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/DartConfiguration.tcl.in
+C:/Program Files/CMake/share/cmake-3.29/Modules/FindOpenMP.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/FindPackageHandleStandardArgs.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/FindPackageMessage.cmake
 C:/Program Files/CMake/share/cmake-3.29/Modules/Platform/Windows-Initialize.cmake

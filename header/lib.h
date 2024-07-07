@@ -15,6 +15,7 @@
 #include <vector>
 #include <thread>
 #include <tuple>
+#include <omp.h>
 
 bool str_compare(const char* a, std::string b);
 double char_2_double(char* argv[], int n);
